@@ -26,7 +26,7 @@ void Segment::ComputeB()
 
 void Segment::DrawSelf(olc::PixelGameEngine* gfx)
 {
-	gfx->DrawLine(ax, ay, bx + gfx->ScreenWidth() / 2, by, olc::RED);
+	gfx->DrawLine(ax, ay, by, by, olc::RED);
 }
 void Segment::follow(float x_, float y_)
 {
