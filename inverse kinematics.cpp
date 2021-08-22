@@ -19,8 +19,10 @@ private:
     float x, y;
     float len1 = 30;
     float len2 = 20;
-    Segment* seg1 = new Segment(ScreenWidth()/2, ScreenHeight()/2, len1, 0.0f);
-    Segment* seg2 = new Segment(ScreenWidth()/2, ScreenHeight()/2, len2, 0.0f);
+    Segment* seg1 = new Segment(ScreenWidth()/2, ScreenHeight()/2, len1, 0.0f, olc::RED);
+    Segment* seg2 = new Segment(ScreenWidth()/2, ScreenHeight()/2, len2, 0.0f, olc::RED);
+    Segment* seg3 = new Segment(ScreenWidth() / 2, ScreenHeight() / 2, len1 + len2, 0.0f, olc::WHITE);
+
 
 
 
@@ -34,13 +36,8 @@ protected:
     virtual bool OnUserUpdate(float fElapsedTime)
     {
 
-        for (int x = 0; x < ScreenWidth(); x++)
-        {
-            for (int y = 0; y < ScreenHeight(); y++)
-            {
-                Draw(x, y, olc::Pixel(olc::BLUE));
-            }
-        }
+        
+        Clear(olc::BLUE);
         //float angle = atan2(GetMouseY() - ay - ScreenHeight() / 2, GetMouseX() - ax - ScreenWidth() / 2);
         //float nAngle = angle * (180 / 3.141592653589793238463);
         //float dx = len * cos(angle);
@@ -49,14 +46,16 @@ protected:
         y = GetMouseY();
 
         float q1;
-        float q2 = acos((sqrt(x) + sqrt(y) - sqrt(len1)-sqrt(len2))/(2*len1*len2));
+        float q2;
+        q2 = M_PI - acos((sqrt(x) + sqrt(y) - sqrt(len1)-sqrt(len2))/(2*len1*len2));
         q1 = atan(y/x)-atan((len1*sin(q2)) / (len1+len2*cos(q2)));
 
         
-        //seg2->setA(seg1->bx, seg2->by);
+        seg2->setA(seg1->bx, seg2->by);
 
+        seg3->follow(x, y);
         seg1->follow(q1);
-        seg2->follow(x,y);
+        seg2->follow(q2 + q1);
 
         if (GetMouse(0).bPressed)
         {
@@ -66,8 +65,12 @@ protected:
         
         seg1->Update();
         seg1->DrawSelf(this);
+
         seg2->Update();
         seg2->DrawSelf(this);
+
+        seg3->Update();
+        seg3->DrawSelf(this);
         
         //DrawLine(seg1->ax + ScreenWidth() / 2, seg1->ax + ScreenHeight() / 2, seg1->bx + ScreenWidth() / 2, seg1->by + ScreenHeight() / 2, olc::RED);
         //DrawLine(seg2->ax + ScreenWidth() / 2, seg2->ax + ScreenHeight() / 2, seg2->bx + ScreenWidth() / 2, seg2->by + ScreenHeight() / 2, olc::RED);
