@@ -26,11 +26,11 @@ void Segment::ComputeB()
 
 void Segment::DrawSelf(olc::PixelGameEngine* gfx)
 {
-	gfx->DrawLine(ax, ay, by, by, olc::RED);
+	gfx->DrawLine(ax, ay, bx, by, olc::RED);
 }
 void Segment::follow(float x_, float y_)
 {
-	angle = atan2(x_ + ay, x_ + ax);
+	angle = atan2(y_ - ay, x_ - ax);
 }
 void Segment::follow(float angle_)
 {

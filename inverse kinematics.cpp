@@ -1,5 +1,7 @@
 #include <iostream>
 #include <math.h>
+#include <cmath>
+#define M_PI 3.14159265358979323846
 #include "Segment.h"
 
 #define OLC_PGE_APPLICATION
@@ -18,7 +20,7 @@ private:
     float len1 = 30;
     float len2 = 20;
     Segment* seg1 = new Segment(ScreenWidth()/2, ScreenHeight()/2, len1, 0.0f);
-    Segment* seg2 = new Segment(ScreenWidth() / 2, ScreenHeight() / 2, len2, 0.0f);
+    Segment* seg2 = new Segment(ScreenWidth()/2, ScreenHeight()/2, len2, 0.0f);
 
 
 
@@ -50,15 +52,22 @@ protected:
         float q2 = acos((sqrt(x) + sqrt(y) - sqrt(len1)-sqrt(len2))/(2*len1*len2));
         q1 = atan(y/x)-atan((len1*sin(q2)) / (len1+len2*cos(q2)));
 
-        seg1->follow(x, y);
-        seg2->follow(q2+seg1->angle);
         
+        //seg2->setA(seg1->bx, seg2->by);
+
+        seg1->follow(q1);
+        seg2->follow(x,y);
+
+        if (GetMouse(0).bPressed)
+        {
+            std::cout << seg1->bx << " " <<seg1->by<< std::endl;
+        }
+
         
         seg1->Update();
         seg1->DrawSelf(this);
         seg2->Update();
         seg2->DrawSelf(this);
-        seg1->setA(seg1->bx, seg2->by);
         
         //DrawLine(seg1->ax + ScreenWidth() / 2, seg1->ax + ScreenHeight() / 2, seg1->bx + ScreenWidth() / 2, seg1->by + ScreenHeight() / 2, olc::RED);
         //DrawLine(seg2->ax + ScreenWidth() / 2, seg2->ax + ScreenHeight() / 2, seg2->bx + ScreenWidth() / 2, seg2->by + ScreenHeight() / 2, olc::RED);
